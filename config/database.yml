@@ -1,0 +1,18 @@
+# SQLite. Versions 3.8.0 and up are supported.
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem "pg", "~> 1.1"
+# adapter change to postgresql
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+#change database and add (host, user, password)
+development:
+  <<: *default
+  database: ins_clone_development
+  host: localhost
+  user: postgres
+  password: Elevate2023!
