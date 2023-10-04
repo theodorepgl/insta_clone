@@ -1,1 +1,15 @@
-index.html.erb
+<h1>Post</h1>
+<% if @posts.any? %>
+	<ul>
+		<% @posts.each do |post|%>
+		<li>
+			<%= link_to post.image, post_path(post)%>
+		</li>
+		<%end%>
+	</ul>
+	<%else%>
+		<p>No post found.</p>
+	<%end%>
+	<br>
+
+<%= link_to 'Create New Post', new_post_path %>
