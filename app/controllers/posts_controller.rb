@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
-	before_action :set_post, only: [:update, :edit, :show, :destroy]
+	before_action :set_post, only: [:show, :edit, :update, :destroy]
+
 	def index
-		@posts = Post.all.order(created_at: :asc)
+		@posts = Post.all
 	end
 
 	def new
@@ -9,6 +10,7 @@ class PostsController < ApplicationController
 	end
 
 	def create
+		# @post = Post.create(image: params[:post][:image], caption: params[:post][:caption], photos: params[:post][:photos])
 		@post = current_user.posts.create(post_params)
 		if @post.save
 			redirect_to post_path(@post)
@@ -17,14 +19,16 @@ class PostsController < ApplicationController
 		end
 	end
 
-	def show
+	def show #show selected post
 	end
 
-	def edit
+	def edit	
 	end
 
-	def update
-		if @post.update(post_params)
+	def update		
+		# @post.update(image: params[:post][:image], caption: params[:post][:caption], photos: params[:post][:photos])
+		@post.update(post_params) #.merge(image: params[:post][:image]))already removed image column so no need anymore
+		if @post.save
 			redirect_to post_path(@post)
 		else
 			render :edit
@@ -33,16 +37,19 @@ class PostsController < ApplicationController
 
 	def destroy
 		@post.destroy
-
-		redirect_to root_path
+		redirect_to root_path(@post)
 	end
 
-	private
+	private #no need end for private method
 		def set_post
 			@post = Post.find(params[:id])
-		end
+		end	
 
-		def post_params
-			params.require(:post).permit( :caption, photos: [])
-		end
+	def post_params
+		params.require(:post).permit(:caption, photos: [])
+	end
+		
 end
+
+#after create private method, type before_action so that other def method can access the same codes
+#for e.g : def show, edit, destroy and update since they use the same line of code.
